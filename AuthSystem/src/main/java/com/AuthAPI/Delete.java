@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,7 +20,7 @@ public class Delete extends HttpServlet{
 		
 		String username = req.getParameter("username");
 		
-		String query = String.format("DELETE FROM user WHERE ", username);
+		String query = String.format("DELETE FROM user WHERE Username = '%s'", username);
 		
 		res.setHeader("Content-Type", "application/json");
 		
@@ -35,14 +34,12 @@ public class Delete extends HttpServlet{
 			
 			Statement statement = con.createStatement();
 			
-			ResultSet result = statement.executeQuery(query);
+			statement.executeUpdate(query);
+				
+			res.setStatus(200);
+				
+			out.println(String.format("{\nmessage: user(%s) was deleted}", username));
 			
-			while(result.next()) {
-				
-				res.setStatus(200);
-				
-				out.println(String.format("{\nmessage: user(%s) was deleted}", username));
-			}
 		}catch(ClassNotFoundException e) {
 			
 			res.setStatus(500);
@@ -50,6 +47,8 @@ public class Delete extends HttpServlet{
 			out.println("{\nmessage: Something went wrong in the server!\n}");
 			
 		}catch(SQLException e) {
+			
+			System.out.println(e.getMessage());
 			
 			res.setStatus(500);
 			
