@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.mysql.cj.protocol.Resultset;
 
 
 public class Signup extends HttpServlet{
@@ -44,9 +43,9 @@ public class Signup extends HttpServlet{
 				PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 				ps.execute();
 				ResultSet result = ps.getGeneratedKeys();
-				System.out.println(result);
 				Algorithm algorithm = Algorithm.HMAC256(String.format("%s %s", username, Password));
 				String token = JWT.create().withIssuer("auth0").sign(algorithm);
+				res.setStatus(200);
 				out.println(String.format("{id: %d, \nusername: %s, \npassword: %s, \ntoken: %s}", result.getInt(1), username, Password, token));
 			}catch(ClassNotFoundException e) {
 				System.out.println(e.getMessage());
@@ -57,6 +56,7 @@ public class Signup extends HttpServlet{
 				System.out.println(e.getMessage());
 				out.println("{message: SQL ERROR!}");
 			}catch(Exception e) {
+				res.setStatus(500);
 				out.println(String.format("{\nmessage: %s\n}", e.getMessage()));
 			}
 		

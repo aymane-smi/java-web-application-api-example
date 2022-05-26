@@ -4,6 +4,7 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  
   <servlet>
   	<servlet-name>login</servlet-name>
   	<servlet-class>com.AuthAPI.Login</servlet-class>
@@ -12,8 +13,30 @@
   	<servlet-name>signup</servlet-name>
   	<servlet-class>com.AuthAPI.Signup</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>create</servlet-name>
+  	<servlet-class>com.AuthAPI.Create</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>delete</servlet-name>
+  	<servlet-class>com.AuthAPI.Delete</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
   	<servlet-name>signup</servlet-name>
   	<url-pattern>/api/signup</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>login</servlet-name>
+  	<url-pattern>/api/login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>create</servlet-name>
+  	<url-pattern>/api/create</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>delete</servlet-name>
+  	<url-pattern>/api/delete</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
